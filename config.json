@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "chart": {
+    "intervals": ["5m", "15m", "1h", "4h", "1d", "1w"],
+    "default": {
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "1d",
+      "theme": "dark",
+      "studies": ["EMA:50", "EMA:200", "VOL", "RSI", "MACD"],
+      "timezone": "Etc/UTC",
+      "width": 800,
+      "height": 600
+    },
+    "inputs": [
+      [
+        {
+          "text": "BTCUSDT",
+          "symbol": "BINANCE:BTCUSDT"
+        },
+        {
+          "text": "ETHUSDT",
+          "symbol": "BINANCE:ETHUSDT",
+          "style": "hollowCandle",
+          "studies": ["VOL", "MACD"]
+        },
+        {
+          "text": "BNBUSDT",
+          "symbol": "BINANCE:BNBUSDT",
+          "studies": ["EMA:50", "EMA:200", "VOL", "CCI"]
+        },
+        {
+          "text": "ADAUSDT",
+          "symbol": "BINANCE:ADAUSDT",
+          "studies": ["IC", "VOL", "MFI"]
+        }
+      ],
+      [
+        {
+          "text": "XRPUSDT",
+          "symbol": "BINANCE:XRPUSDT"
+        },
+        {
+          "text": "SOLUSDT",
+          "symbol": "BINANCE:SOLUSDT"
+        },
+        {
+          "text": "DOTUSDT",
+          "symbol": "BINANCE:DOTUSDT"
+        },
+        {
+          "text": "DOGEUSDT",
+          "symbol": "BINANCE:DOGEUSDT"
+        }
+      ],
+      [
+        {
+          "text": "TRXUSDT",
+          "symbol": "BINANCE:TRXUSDT"
+        },
+        {
+          "text": "SHIBUSDT",
+          "symbol": "BINANCE:SHIBUSDT"
+        },
+        {
+          "text": "AVAXUSDT",
+          "symbol": "BINANCE:AVAXUSDT"
+        },
+        {
+          "text": "LTCUSDT",
+          "symbol": "BINANCE:LTCUSDT"
+        }
+      ],
+      [
+        {
+          "text": "AAPL",
+          "symbol": "AAPL",
+          "studies": ["EMA:50", "EMA:200", "VOL", "MACD"]
+        },
+        {
+          "text": "MSFT",
+          "symbol": "MSFT"
+        },
+        {
+          "text": "AMZN",
+          "symbol": "AMZN"
+        },
+        {
+          "text": "TSLA",
+          "symbol": "TSLA"
+        }
+      ]
+    ]
+  },
+  "commands": [
+    {
+      "command": "/start",
+      "description": "Introduction"
+    },
+    {
+      "command": "/chart",
+      "description": "Tradingview chart"
+    },
+    {
+      "command": "/example",
+      "description": "Command examples"
+    }
+  ]
+}

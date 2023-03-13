@@ -1,0 +1,6 @@
+dist
+worker
+development
+node_modules
+package-lock.json
+.env*
