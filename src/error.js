@@ -1,6 +1,6 @@
-export class ApiKeyRequiredError extends Error {
+export class ApiCredentialRequiredError extends Error {
   constructor(opt) {
-    super('API key is required', opt) // prettier-ignore
+    super('API credential is required', opt) // prettier-ignore
     this.name = this.constructor.name
     this.status = 403
   }
