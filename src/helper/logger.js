@@ -1,4 +1,4 @@
-import config from '../../config.json'
+import config from '../../config.json' assert { type: 'json' }
 
 const DEFAULT_LEVEL = 'info'
 

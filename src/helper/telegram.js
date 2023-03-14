@@ -1,4 +1,6 @@
-import log from './logger'
+import log from './logger.js'
+
+export const webhookPath = 'webhook' // eg. https://example.com/webhook
 
 /**
  * @param {String} apiToken
@@ -9,7 +11,7 @@ import log from './logger'
  */
 export function setWebhook(apiToken, baseUrl, secretToken, maxConn = 100) {
   return postPayload(apiToken, 'setWebhook', {
-    url: `${baseUrl}/webhook`,
+    url: `${baseUrl}/${webhookPath}`,
     max_connections: maxConn,
     secret_token: secretToken,
   })
