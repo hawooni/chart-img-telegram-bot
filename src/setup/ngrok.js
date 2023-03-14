@@ -1,7 +1,6 @@
 import args from 'args'
 import ngrok from 'ngrok'
 import toml from '../helper/toml.js'
-import log from '../helper/logger.js'
 
 import { setWebhook } from '../helper/telegram.js'
 
@@ -51,10 +50,9 @@ ngrok
       const secretToken = vars?.TELEGRAM_SECRET_TOKEN
 
       if (apiToken?.length > 0) {
-        log.verbose(`set telegram webhook base url (${tunnelBaseUrl})`)
         await setWebhook(apiToken, tunnelBaseUrl, secretToken)
       } else {
-        console.warn('TELEGRAM_API_TOKEN is required to update Telegram Webhook!') // prettier-ignore
+        console.log('WARN: TELEGRAM_API_TOKEN is required to update Telegram Webhook!') // prettier-ignore
       }
     }
     console.log('')
