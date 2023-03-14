@@ -6,10 +6,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "npx wrangler dev --local --ip 127.0.0.1 --port 8080",
-    "ngrok": "node src/setup/ngrok --port 8080",
-    "setup": "node src/setup/telegram",
-    "publish-cf": "npx wrangler publish",
+    "start": "npm run ngrok -- --port 8080 -t & npm run server -- --local --ip 127.0.0.1 --port 8080",
+    "ngrok": "node --no-warnings src/setup/ngrok",
+    "setup": "node --no-warnings src/setup/telegram",
+    "server": "npx wrangler dev --local",
+    "publish-server-cf": "npx wrangler publish",
     "prettier": "prettier --write '**/*.{js,json,md}'"
   },
   "dependencies": {
@@ -19,9 +20,11 @@
   },
   "devDependencies": {
     "args": "^5.0.3",
+    "concat-stream": "^2.0.0",
     "inquirer": "^9.1.4",
     "ngrok": "^4.3.3",
     "prettier": "^2.8.4",
+    "toml": "^3.0.0",
     "wrangler": "^2.12.3"
   }
 }
