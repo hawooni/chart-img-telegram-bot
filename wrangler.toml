@@ -7,3 +7,4 @@ compatibility_date = "2022-11-30"
 [vars]
 CHART_IMG_API_KEY = ""
 TELEGRAM_API_TOKEN = ""
+TELEGRAM_SECRET_TOKEN = "somethingRandomHere"
