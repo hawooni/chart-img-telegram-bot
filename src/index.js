@@ -1,4 +1,5 @@
 import log from './helper/logger'
+import { webhookPath } from './helper/telegram'
 import controllerWebhook from './controller/webhook'
 
 import { Router } from 'itty-router'
@@ -8,7 +9,7 @@ import MSG from './message'
 
 const router = Router()
 
-router.post('/webhook', controllerWebhook)
+router.post(`/${webhookPath}`, controllerWebhook)
 
 router.all(
   '/*',
