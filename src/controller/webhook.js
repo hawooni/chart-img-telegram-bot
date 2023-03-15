@@ -1,15 +1,11 @@
 import { JsonResponse } from '../helper/response'
 import { procWebhook } from '../service/telegram'
 
-import MSG from '../message'
-
-export default async (req) => {
+export default async (req, env) => {
   if (req.headers.get('Content-Type') !== 'application/json') {
-    return new JsonResponse({ message: MSG.INVALID_CONTENT_TYPE }, 400)
+    return new JsonResponse({ message: 'Invalid Content Type' }, 400)
+  } else {
+    await procWebhook(await req.json(), env)
+    return new JsonResponse()
   }
-
-  return req
-    .json()
-    .then((payload) => procWebhook(payload))
-    .then(() => new JsonResponse())
 }
