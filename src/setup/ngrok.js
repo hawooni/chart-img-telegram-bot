@@ -2,7 +2,7 @@ import args from 'args'
 import ngrok from 'ngrok'
 import toml from '../helper/toml.js'
 
-import { setWebhook } from '../helper/telegram.js'
+import { setMyCommands, setWebhook } from '../helper/telegram.js'
 
 args
   .option('port', 'The port ngrok forward to', 8080)
@@ -38,10 +38,10 @@ ngrok
       eventLog && console.debug(logEvent)
     },
   })
-  .then(async (tunnelBaseUrl) => {
-    console.log('------------------------------------------------')
-    console.log(`Tunnel URL: ${tunnelBaseUrl}`)
-    console.log('------------------------------------------------')
+  .then(async (baseURL) => {
+    console.log('------------------------------------------------------')
+    console.log(`${baseURL} => localhost:${port}`)
+    console.log('------------------------------------------------------')
 
     if (telegramSetup) {
       const { vars } = await toml()
@@ -50,7 +50,17 @@ ngrok
       const secretToken = vars?.TELEGRAM_SECRET_TOKEN
 
       if (apiToken?.length > 0) {
-        await setWebhook(apiToken, tunnelBaseUrl, secretToken)
+        const notOks = await Promise.all([
+          setWebhook(apiToken, baseURL, secretToken),
+          setMyCommands(apiToken),
+        ]).then((ress) => ress.filter((res) => !res.ok))
+
+        if (notOks) {
+          notOks.forEach(async (notOk) => {
+            const { description, error_code } = await notOk.json()
+            console.error(`ERROR: ${description} (${error_code})`)
+          })
+        }
       } else {
         console.log('WARN: TELEGRAM_API_TOKEN is required to update Telegram Webhook!') // prettier-ignore
       }

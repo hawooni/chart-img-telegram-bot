@@ -1,11 +1,12 @@
 import inquirer from 'inquirer'
 import toml from '../helper/toml.js'
 
-import { setWebhook } from '../helper/telegram.js'
+import { setMyCommands, setWebhook } from '../helper/telegram.js'
 
 const BASE_URL_EXAMPLE = 'https://example.com'
 
 const { vars } = await toml()
+const { TELEGRAM_API_TOKEN, TELEGRAM_SECRET_TOKEN } = vars // wrangler.toml
 
 const prompts = [
   {
@@ -27,7 +28,7 @@ const prompts = [
   },
 ]
 
-if (!vars.TELEGRAM_API_TOKEN) {
+if (!TELEGRAM_API_TOKEN) {
   prompts.push({
     type: 'password',
     name: 'apiToken',
@@ -44,8 +45,24 @@ if (!vars.TELEGRAM_API_TOKEN) {
 inquirer
   .prompt(prompts)
   .then(({ baseURL, apiToken }) => {
-    return setWebhook(apiToken, baseURL, vars.TELEGRAM_SECRET_TOKEN)
+    const tApiToken = apiToken || TELEGRAM_API_TOKEN
+    return Promise.all([
+      setWebhook(tApiToken, baseURL, TELEGRAM_SECRET_TOKEN),
+      setMyCommands(tApiToken),
+    ])
   })
-  .then(() => {
-    console.info('\nSuccessfully setup Telegram Webhook!')
+  .then((ress) => {
+    const notOKs = ress.filter((res) => !res.ok)
+
+    if (!notOKs) {
+      console.info('\nSuccessfully setup Telegram Webhook!')
+    } else {
+      notOKs.forEach(async (notOk) => {
+        const { description, error_code } = await notOk.json()
+        console.error(`\n${description} (${error_code})`)
+      })
+    }
+  })
+  .catch((error) => {
+    console.error(error.message)
   })
