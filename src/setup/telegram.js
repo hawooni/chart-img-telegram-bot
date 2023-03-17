@@ -51,16 +51,14 @@ inquirer
       setMyCommands(tApiToken),
     ])
   })
-  .then((ress) => {
+  .then(async (ress) => {
     const notOKs = ress.filter((res) => !res.ok)
 
-    if (!notOKs) {
+    if (notOKs?.length === 0) {
       console.info('\nSuccessfully setup Telegram Webhook!')
     } else {
-      notOKs.forEach(async (notOk) => {
-        const { description, error_code } = await notOk.json()
-        console.error(`\n${description} (${error_code})`)
-      })
+      const { description, error_code } = await notOKs[0].json() // show first error only
+      console.error(`\n${description} (${error_code})`)
     }
   })
   .catch((error) => {
