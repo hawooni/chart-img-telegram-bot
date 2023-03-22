@@ -5,7 +5,7 @@ import toml from '../helper/toml.js'
 import { setMyCommands, setWebhook } from '../helper/telegram.js'
 
 args
-  .option('port', 'The port ngrok forward to', 8080)
+  .option('port', 'The port ngrok forward to', 8787)
   .option('region', 'The ngrok server region', 'us') // us, eu, au, ap, sa, jp, in
   .option('authtoken', 'Your ngrok auth token')
   .option('subdomain', 'Reserved tunnel sub domain name (Paid features)')
