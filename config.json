@@ -1,12 +1,11 @@
 {
   "version": 1,
   "chart": {
-    "intervals": ["5m", "15m", "1h", "4h", "1d", "1w"],
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
-      "symbol": "BINANCE:BTCUSDT",
-      "interval": "1d",
+      "symbol": "BITSTAMP:BTCUSD",
+      "interval": "1D",
       "theme": "dark",
-      "studies": ["EMA:50", "EMA:200", "VOL", "RSI", "MACD"],
       "timezone": "Etc/UTC",
       "width": 800,
       "height": 600
@@ -15,78 +14,108 @@
       [
         {
           "text": "BTCUSDT",
-          "symbol": "BINANCE:BTCUSDT"
+          "symbol": "BINANCE:BTCUSDT",
+          "studies": ["RSI"]
         },
         {
           "text": "ETHUSDT",
           "symbol": "BINANCE:ETHUSDT",
-          "style": "hollowCandle",
-          "studies": ["VOL", "MACD"]
+          "studies": ["MACD"]
         },
         {
           "text": "BNBUSDT",
           "symbol": "BINANCE:BNBUSDT",
-          "studies": ["EMA:50", "EMA:200", "VOL", "CCI"]
+          "studies": ["CCI"]
         },
         {
           "text": "ADAUSDT",
           "symbol": "BINANCE:ADAUSDT",
-          "studies": ["IC", "VOL", "MFI"]
+          "studies": ["MFI"]
         }
       ],
       [
         {
           "text": "XRPUSDT",
-          "symbol": "BINANCE:XRPUSDT"
+          "symbol": "BINANCE:XRPUSDT",
+          "studies": ["AO"]
         },
         {
           "text": "SOLUSDT",
-          "symbol": "BINANCE:SOLUSDT"
+          "symbol": "BINANCE:SOLUSDT",
+          "studies": ["BB", "VOL"]
         },
         {
           "text": "DOTUSDT",
-          "symbol": "BINANCE:DOTUSDT"
+          "symbol": "BINANCE:DOTUSDT",
+          "studies": ["MOM"]
         },
         {
           "text": "DOGEUSDT",
-          "symbol": "BINANCE:DOGEUSDT"
+          "symbol": "BINANCE:DOGEUSDT",
+          "studies": ["PPHL", "VOL"]
         }
       ],
       [
         {
           "text": "TRXUSDT",
-          "symbol": "BINANCE:TRXUSDT"
+          "symbol": "BINANCE:TRXUSDT",
+          "studies": ["STOCH"]
         },
         {
           "text": "SHIBUSDT",
-          "symbol": "BINANCE:SHIBUSDT"
+          "symbol": "BINANCE:SHIBUSDT",
+          "studies": ["WA", "VOL"]
         },
         {
           "text": "AVAXUSDT",
-          "symbol": "BINANCE:AVAXUSDT"
+          "symbol": "BINANCE:AVAXUSDT",
+          "studies": ["SAR", "VOL"]
         },
         {
           "text": "LTCUSDT",
-          "symbol": "BINANCE:LTCUSDT"
+          "symbol": "BINANCE:LTCUSDT",
+          "studies": ["RVI"]
         }
       ],
       [
         {
-          "text": "AAPL",
-          "symbol": "AAPL",
-          "studies": ["EMA:50", "EMA:200", "VOL", "MACD"]
+          "text": "EURUSD",
+          "symbol": "FX:EURUSD",
+          "studies": ["VOL"]
         },
         {
-          "text": "MSFT",
-          "symbol": "MSFT"
+          "text": "GBPUSD",
+          "symbol": "FX:GBPUSD",
+          "studies": ["VOL"]
         },
         {
-          "text": "AMZN",
-          "symbol": "AMZN"
+          "text": "USDJPY",
+          "symbol": "FX:USDJPY",
+          "studies": ["VOL"]
         },
         {
-          "text": "TSLA",
-          "symbol": "TSLA"
+          "text": "USDCAD",
+          "symbol": "FX:USDCAD",
+          "studies": ["VOL"]
+        }
+      ],
+      [
+        {
+          "text": "GOLD",
+          "symbol": "FOREXCOM:XAUUSD"
+        },
+        {
+          "text": "SILVER",
+          "symbol": "FOREXCOM:XAGUSD"
+        },
+        {
+          "text": "USOIL",
+          "symbol": "FOREXCOM:WTIUSD"
+        },
+        {
+          "text": "GAS",
+          "symbol": "CAPITALCOM:NATURALGAS",
+          "studies": ["VOL"]
         }
       ]
     ]
@@ -103,6 +132,16 @@
     {
       "command": "/example",
       "description": "Command examples"
+    }
+  ],
+  "messages": [
+    {
+      "name": "/start",
+      "text": "Hello, I am CHART-IMG Bot \uD83E\uDD16!\r\n\r\nI can help you access TradingView charts for a variety of assets, such as cryptocurrencies, forex, stocks, indices, and futures.\r\n\r\nRead the tutorial on how to use and run your bot:\r\n[website].\r\n\r\nTo get started, simply type one of the following commands:\r\n\r\n/chart\r\n/example"
+    },
+    {
+      "name": "/example",
+      "text": "Examples:\r\n\r\n/chart\r\n/chart nasdaq:aapl\r\n/chart binance:btcusdt 15m\r\n/chart capitalcom:gold 4h\r\n/chart <exchange:symbol> <interval>\r\n\r\nSupported <interval>\r\n1m,3m,5m,15m,30m,45m,1h,2h,3h,4h,1d,1w,1M,3M,6M,1Y\r\n\r\nList of supported exchange symbols\r\nhttps://doc.chart-img.com/#tradingview-symbols"
     }
   ]
 }

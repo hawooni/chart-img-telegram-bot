@@ -1,7 +1,93 @@
 import log from './logger.js'
 import config from '../../config.json' assert { type: 'json' }
 
+const BASE_API_URL = 'https://api.telegram.org'
+
 export const webhookPath = 'webhook' // eg. https://example.com/webhook
+
+/**
+ * @param {String} apiToken
+ * @param {Chat} chat
+ * @param {String} actionType eg. typing, upload_photo, ...
+ * @returns {Promise}
+ */
+export function sendChatAction(apiToken, chat, actionType = 'upload_photo') {
+  return postJSON(apiToken, 'sendChatAction', {
+    chat_id: chat.id,
+    action: actionType,
+  })
+}
+
+/**
+ * @param {String} apiToken
+ * @param {Object} payload
+ * @returns {Promise}
+ */
+export function sendMessage(apiToken, payload) {
+  return postJSON(apiToken, 'sendMessage', payload)
+}
+
+/**
+ * @param {String} apiToken
+ * @param {Chat} chat
+ * @param {Blob} photo
+ * @param {Object} opt
+ * @returns {Promise}
+ */
+export function sendPhoto(apiToken, chat, photo, opt = {}) {
+  const payload = new FormData()
+
+  payload.append('chat_id', chat.id)
+  payload.append('photo', photo)
+
+  Object.keys(opt).forEach((key) => {
+    payload.append(key, opt[key])
+  })
+
+  return fetch(`${BASE_API_URL}/bot${apiToken}/sendPhoto`, {
+    method: 'POST',
+    body: payload,
+  })
+}
+
+/**
+ * @param {String} apiToken
+ * @param {String} mediaType eg. photo, ...
+ * @param {Blob} mediaAttach eg. new Blob([media], { type: 'application/octet-stream' })
+ * @param {Object} optParam eg. { chat_id: 1234, message_id: 1234, ... }
+ * @param {Promise}
+ */
+export const editAttachMessageMedia = (
+  apiToken,
+  mediaType,
+  mediaAttach,
+  optParam = {},
+  optMedia = {}
+) => {
+  const payload = new FormData()
+
+  const attachName = '0'
+  const media = {
+    type: mediaType,
+    media: `attach://${attachName}`,
+  }
+
+  Object.keys(optParam).forEach((key) => {
+    payload.append(key, optParam[key])
+  })
+
+  Object.keys(optMedia).forEach((key) => {
+    media[key] = optMedia[key]
+  })
+
+  payload.append(attachName, mediaAttach)
+  payload.append('media', JSON.stringify(media))
+
+  return fetch(`${BASE_API_URL}/bot${apiToken}/editMessageMedia`, {
+    method: 'POST',
+    body: payload,
+  })
+}
 
 /**
  * @param {String} apiToken
@@ -38,7 +124,7 @@ export function setWebhook(apiToken, baseUrl, secretToken, maxConn = 100) {
 export function postJSON(apiToken, method, payload) {
   log.debug(`telegram.postPayload(apiToken, ${method}, ${JSON.stringify(payload)})`) // prettier-ignore
 
-  return fetch(`https://api.telegram.org/bot${apiToken}/${method}`, {
+  return fetch(`${BASE_API_URL}/bot${apiToken}/${method}`, {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: {

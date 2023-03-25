@@ -1,5 +1,5 @@
+import procWebhook from '../service/procWebhook'
 import { JsonResponse } from '../helper/response'
-import { procWebhook } from '../service/telegram'
 
 export default async (req, env) => {
   if (req.headers.get('Content-Type') !== 'application/json') {

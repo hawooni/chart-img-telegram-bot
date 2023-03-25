@@ -6,25 +6,27 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "npm run ngrok -- --port 8080 -t & npm run server -- --local --ip 127.0.0.1 --port 8080",
+    "start": "npm run ngrok -- --port 8080 -t & npm run server-local -- --local --ip 127.0.0.1 --port 8080",
     "ngrok": "node --no-warnings src/setup/ngrok",
-    "setup": "node --no-warnings src/setup/telegram",
-    "server": "npx wrangler dev --local",
+    "setup-telegram": "node --no-warnings src/setup/telegram",
+    "server-local": "npx wrangler dev --local",
     "publish-server-cf": "npx wrangler publish",
     "prettier": "prettier --write '**/*.{js,json,md}'"
   },
   "dependencies": {
-    "itty-router": "^3.0.11",
+    "itty-router": "^3.0.12",
+    "lodash.get": "^4.4.2",
+    "lodash.omit": "^4.5.0",
     "query-string": "^8.1.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
     "args": "^5.0.3",
     "concat-stream": "^2.0.0",
-    "inquirer": "^9.1.4",
+    "inquirer": "^9.1.5",
     "ngrok": "^4.3.3",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.7",
     "toml": "^3.0.0",
-    "wrangler": "^2.12.3"
+    "wrangler": "^2.13.0"
   }
 }

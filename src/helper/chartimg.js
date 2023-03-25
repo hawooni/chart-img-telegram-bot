@@ -1,17 +1,35 @@
-import qs from 'query-string'
 import log from './logger'
+import qs from 'query-string'
+import config from '../../config.json' assert { type: 'json' }
 
-import { ApiCredentialRequiredError } from '../error'
+const BASE_API_URL =
+  config.override?.chartImgApiURL || 'https://api.chart-img.com'
 
-const BASE_URL_V1 = 'https://api.chart-img.com/v1'
-const BASE_URL_V2 = 'https://beta-api.chart-img.com/v2' // note: beta!!
+export const intervals = [
+  '1m',
+  '3m',
+  '5m',
+  '15m',
+  '30m',
+  '45m',
+  '1h',
+  '2h',
+  '3h',
+  '4h',
+  '1D',
+  '1W',
+  '1M',
+  '3M',
+  '6M',
+  '1Y',
+]
 
 /**
  * @param {String} apiKey
  * @param {Object} query
  * @returns {Promise}
  */
-export function getTradingViewAdvancedChartRESTv1(apiKey, query, opt) {
+export function getTradingViewAdvancedChartRESTv1(apiKey, query, opt = {}) {
   return getQueryRESTv1('/tradingview/advanced-chart', apiKey, query, opt)
 }
 
@@ -21,7 +39,7 @@ export function getTradingViewAdvancedChartRESTv1(apiKey, query, opt) {
  * @param {Object} opt
  * @returns {Promise}
  */
-export function postTradingViewAdvancedChartRESTv2(apiKey, payload, opt) {
+export function postTradingViewAdvancedChartRESTv2(apiKey, payload, opt = {}) {
   return postPayloadRESTv2('/tradingview/advanced-chart', apiKey, payload, opt)
 }
 
@@ -31,7 +49,7 @@ export function postTradingViewAdvancedChartRESTv2(apiKey, payload, opt) {
  * @param {Object} opt
  * @returns {Promise}
  */
-export function postTradingViewLayoutRESTv2(apiKey, payload, opt) {
+export function postTradingViewLayoutRESTv2(apiKey, payload, opt = {}) {
   return postPayloadRESTv2('/tradingview/layout-chart', apiKey, payload, opt)
 }
 
@@ -45,11 +63,7 @@ export function postTradingViewLayoutRESTv2(apiKey, payload, opt) {
 function getQueryRESTv1(path, apiKey, query = {}, opt = {}) {
   log.debug(`chartimg.getQueryRESTv1(${path}, apiKey, ${JSON.stringify(query)}, ${JSON.stringify(opt)})`) // prettier-ignore
 
-  if (!apiKey) {
-    throw new ApiCredentialRequiredError()
-  }
-
-  return fetch(`${BASE_URL_V1}${path}?${qs.stringify(query, opt.qs)}`, {
+  return fetch(`${BASE_API_URL}/v1/${path}?${qs.stringify(query, opt.qs)}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -58,6 +72,8 @@ function getQueryRESTv1(path, apiKey, query = {}, opt = {}) {
 }
 
 /**
+ * note: API V2 BETA is not officially supported yet, you need to override BASE_API_URL to test it.
+ *
  * @param {String} path eg. /tradingview/advanced-chart
  * @param {String} apiKey
  * @param {Object} payload
@@ -66,10 +82,6 @@ function getQueryRESTv1(path, apiKey, query = {}, opt = {}) {
  */
 function postPayloadRESTv2(path, apiKey, payload, opt = {}) {
   log.debug(`chartimg.postPayloadRESTv2(${path}, apiKey, ${JSON.stringify(payload)}, ${JSON.stringify(opt)})`) // prettier-ignore
-
-  if (!apiKey) {
-    throw new ApiCredentialRequiredError()
-  }
 
   const headers = {
     'x-api-key': apiKey,
@@ -80,7 +92,7 @@ function postPayloadRESTv2(path, apiKey, payload, opt = {}) {
     headers['tradingview-session-id'] = opt.sessionId
   }
 
-  return fetch(`${BASE_URL_V2}/${path}`, {
+  return fetch(`${BASE_API_URL}/v2/${path}`, {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: headers,

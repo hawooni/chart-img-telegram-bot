@@ -4,10 +4,16 @@ import toml from '../helper/toml.js'
 
 import { setMyCommands, setWebhook } from '../helper/telegram.js'
 
+const { vars } = await toml()
+
+const apiToken = vars?.TELEGRAM_API_TOKEN
+const secretToken = vars?.TELEGRAM_SECRET_TOKEN
+const ngrokToken = vars?.NGROK_TOKEN?.length > 0 ? vars.NGROK_TOKEN : undefined
+
 args
   .option('port', 'The port ngrok forward to', 8787)
   .option('region', 'The ngrok server region', 'us') // us, eu, au, ap, sa, jp, in
-  .option('authtoken', 'Your ngrok auth token')
+  .option('authtoken', 'Your ngrok auth token', ngrokToken)
   .option('subdomain', 'Reserved tunnel sub domain name (Paid features)')
   .option('configPath', 'Custom path for ngrok config file')
   .option('telegramSetup', 'Setup Telegram Webhook URL')
@@ -44,11 +50,6 @@ ngrok
     console.log('------------------------------------------------------')
 
     if (telegramSetup) {
-      const { vars } = await toml()
-
-      const apiToken = vars?.TELEGRAM_API_TOKEN
-      const secretToken = vars?.TELEGRAM_SECRET_TOKEN
-
       if (apiToken?.length > 0) {
         const notOks = await Promise.all([
           setWebhook(apiToken, baseURL, secretToken),
