@@ -30,7 +30,7 @@ export const intervals = [
  * @returns {Promise}
  */
 export function getTradingViewAdvancedChartRESTv1(apiKey, query, opt = {}) {
-  return getQueryRESTv1('/tradingview/advanced-chart', apiKey, query, opt)
+  return getQueryRESTv1('tradingview/advanced-chart', apiKey, query, opt)
 }
 
 /**
@@ -40,7 +40,7 @@ export function getTradingViewAdvancedChartRESTv1(apiKey, query, opt = {}) {
  * @returns {Promise}
  */
 export function postTradingViewAdvancedChartRESTv2(apiKey, payload, opt = {}) {
-  return postPayloadRESTv2('/tradingview/advanced-chart', apiKey, payload, opt)
+  return postPayloadRESTv2('tradingview/advanced-chart', apiKey, payload, opt)
 }
 
 /**
@@ -50,7 +50,7 @@ export function postTradingViewAdvancedChartRESTv2(apiKey, payload, opt = {}) {
  * @returns {Promise}
  */
 export function postTradingViewLayoutRESTv2(apiKey, payload, opt = {}) {
-  return postPayloadRESTv2('/tradingview/layout-chart', apiKey, payload, opt)
+  return postPayloadRESTv2('tradingview/layout-chart', apiKey, payload, opt)
 }
 
 /**
