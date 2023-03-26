@@ -7,6 +7,7 @@ import config from '../../config.json' assert { type: 'json' }
 import {
   intervals,
   getTradingViewAdvancedChartRESTv1,
+  postTradingViewAdvancedChartRESTv2,
 } from '../helper/chartimg'
 
 import {
@@ -112,7 +113,31 @@ export async function getChartImgPhoto(apiKey, chartQuery) {
       }
     }
   } else if (config.version === 2) {
-    throw new InvalidConfigError() // todo: implement!
+    const response = await postTradingViewAdvancedChartRESTv2(
+      apiKey,
+      chartQuery
+    )
+    const resStatus = response.status
+
+    if (resStatus === 200) {
+      return new Blob([await response.arrayBuffer()], {
+        type: 'application/octet-stream',
+      })
+    } else {
+      const payload = await response.json()
+
+      if (resStatus === 400) {
+        throw new InvalidRequestError()
+      } else if (resStatus === 403) {
+        throw new UnauthorizedRequestError(payload.message)
+      } else if (resStatus === 422) {
+        throw new UnprocessableRequestError(payload.message)
+      } else if (resStatus === 429) {
+        throw new TooManyRequestError(payload.message)
+      } else {
+        throw new RequestError(payload.message, resStatus)
+      }
+    }
   } else {
     throw new InvalidConfigError()
   }
