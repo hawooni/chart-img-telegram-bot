@@ -10,6 +10,7 @@ import {
   UnprocessableRequestError,
   TooManyRequestError,
   MessageNameNotFoundError,
+  UnauthorizedRequestError,
 } from '../error'
 
 import MSG from '../message/telegram'
@@ -45,6 +46,11 @@ export default function (error, chat, env) {
     return sendMessage(TELEGRAM_API_TOKEN, {
       chat_id: chat.id,
       text: MSG.TOO_MANY_REQUEST,
+    })
+  } else if (error instanceof UnauthorizedRequestError) {
+    return sendMessage(TELEGRAM_API_TOKEN, {
+      chat_id: chat.id,
+      text: MSG.API_KEY_AUTH_ERROR,
     })
   } else {
     log.error(error.stack)
