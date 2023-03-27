@@ -10,6 +10,8 @@ const level = {
   debug: 4,
 }
 
+// todo: implement cf-logpush
+
 export default {
   error(message) {
     level[config.logLevel || DEFAULT_LEVEL] >= level['error'] &&

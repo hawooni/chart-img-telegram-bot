@@ -1,8 +1,9 @@
 import procError from './procError'
 import config from '../../config.json' assert { type: 'json' }
 
-import { InvalidConfigError } from '../error'
+import { reservedKeys } from '../helper/config'
 import { sendChatAction, editAttachMessageMedia } from '../helper/telegram'
+import { InvalidConfigError } from '../error'
 
 import {
   getChartImgQuery,
@@ -18,17 +19,17 @@ export default async function (payload, env) {
   const { TELEGRAM_API_TOKEN, CHART_IMG_API_KEY } = env
 
   const { message, data } = payload
-  const [version, type, typeParam] = data.split(DATA_SPLIT_BY)
+  const [version, cmdKey, cmdParam] = data.split(DATA_SPLIT_BY)
 
   try {
     if (parseInt(version) !== config.version) {
       throw new InvalidConfigError('Callback data version does not match')
     }
 
-    if (type === 'chart') {
+    if (!reservedKeys.includes(cmdKey) && config[cmdKey]) {
       const dataQuery = getQueryByCallbackData(data)
-      const chartQuery = getChartImgQuery(dataQuery)
-      const includeSymbols = typeParam === 'true'
+      const chartQuery = getChartImgQuery(cmdKey, dataQuery)
+      const includeSymbols = cmdParam === 'true'
 
       const [chartPhoto] = await Promise.all([
         getChartImgPhoto(CHART_IMG_API_KEY, chartQuery),
@@ -42,18 +43,28 @@ export default async function (payload, env) {
       const relayMarkup = {
         inline_keyboard: dataQuery.inputs
           ? getIndexChartInlineKeys(
+              cmdKey,
               dataQuery.inputs.row,
               dataQuery.inputs.column,
               dataQuery.interval
             )
-          : getInitChartInlineKeys(dataQuery, includeSymbols),
+          : getInitChartInlineKeys(cmdKey, dataQuery, includeSymbols),
+      }
+
+      const optParam = {
+        reply_markup: JSON.stringify(relayMarkup),
+      }
+
+      const optMedia = {
+        caption: `${dataQuery.symbol} ${dataQuery.interval}`,
       }
 
       return editChartPhotoCallback(
         TELEGRAM_API_TOKEN,
         message,
         attachPhoto,
-        relayMarkup
+        optParam,
+        optMedia
       )
     } else {
       throw new InvalidConfigError('Invalid callback data type')
@@ -67,18 +78,30 @@ export default async function (payload, env) {
  * @param {String} apiToken
  * @param {Message} message
  * @param {Blob} attachPhoto
- * @param {Object} relayMarkup
+ * @param {Object} optParam
+ * @param {Object} optMedia
  * @returns {Promise}
  */
-function editChartPhotoCallback(apiToken, message, attachPhoto, relayMarkup) {
-  const param = {
-    chat_id: message.chat.id,
-    message_id: message.message_id,
-  }
+function editChartPhotoCallback(
+  apiToken,
+  message,
+  attachPhoto,
+  optParam,
+  optMedia
+) {
+  const aOptParam = Object.assign(
+    {
+      chat_id: message.chat.id,
+      message_id: message.message_id,
+    },
+    optParam
+  )
 
-  if (relayMarkup) {
-    param.reply_markup = JSON.stringify(relayMarkup)
-  }
-
-  return editAttachMessageMedia(apiToken, 'photo', attachPhoto, param)
+  return editAttachMessageMedia(
+    apiToken,
+    'photo',
+    attachPhoto,
+    aOptParam,
+    optMedia
+  )
 }

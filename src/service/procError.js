@@ -7,6 +7,7 @@ import {
   InvalidIntervalError,
   InvalidConfigError,
   InvalidRequestError,
+  InvalidCommandError,
   UnprocessableRequestError,
   TooManyRequestError,
   MessageNameNotFoundError,
@@ -27,7 +28,8 @@ export default function (error, chat, env) {
   if (
     error instanceof InvalidSymbolError ||
     error instanceof InvalidIntervalError ||
-    error instanceof MessageNameNotFoundError
+    error instanceof MessageNameNotFoundError ||
+    error instanceof InvalidCommandError
   ) {
     return sendMessage(TELEGRAM_API_TOKEN, {
       chat_id: chat.id,

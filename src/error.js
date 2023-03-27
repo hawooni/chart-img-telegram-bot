@@ -5,6 +5,13 @@ export class InvalidConfigError extends Error {
   }
 }
 
+export class InvalidCommandError extends Error {
+  constructor(message, opt) {
+    super(message, opt)
+    this.name = this.constructor.name
+  }
+}
+
 export class InvalidSymbolError extends Error {
   constructor(symbol, opt) {
     super(`Invalid Symbol${symbol ? ' (' + symbol + ')' : ''}`, opt)

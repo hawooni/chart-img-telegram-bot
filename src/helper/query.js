@@ -22,12 +22,13 @@ import {
 } from '../error'
 
 /**
- * @param {String} text eg. /chart binance:btcusdt 4h
+ * @param {String} text eg. /chart binance:btcusdt 4h, /crypto, /nasdaq
  * @param {String} splitBy
  * @returns {Object} eg. { symbol: 'BINANCE:BTCUSDT', interval: '4h' }
  */
-export function getQueryByText(text, splitBy = ' ') {
+export function getQueryByCmdText(text, splitBy = ' ') {
   const [cmd, symbol, interval] = text.split(splitBy)
+  const cmdKey = cmd.substring(1) // /chart => chart
   const query = {}
 
   if (symbol) {
@@ -46,6 +47,11 @@ export function getQueryByText(text, splitBy = ' ') {
     }
   }
 
+  // if cmdKey does not have input symbols, assign default symbol
+  if (!symbol && !config[cmdKey].inputs) {
+    query.symbol = config[cmdKey].default.symbol
+  }
+
   return query
 }
 
@@ -57,10 +63,10 @@ export function getQueryByText(text, splitBy = ' ') {
  * @returns {Object}
  */
 export function getQueryByCallbackData(data, splitBy = '|') {
-  const splits = data.split(splitBy)
+  const splits = data.split(splitBy) // version|cmdKey|cmdParam|...
+  const cmdKey = splits[1]
   const query = {}
 
-  // eg. version|type|typeParm|...
   splits.slice(3).forEach((dValue) => {
     if (dValue.startsWith('interval=')) {
       query.interval = dValue.split('=')[1]
@@ -71,8 +77,8 @@ export function getQueryByCallbackData(data, splitBy = '|') {
       dValue.includes('][') &&
       dValue.endsWith(']')
     ) {
-      Object.assign(query, get(config, `chart.${dValue}`)) // eg. config.chart.inputs[0][1]
-      query.inputs = getInputIndex(dValue)
+      Object.assign(query, get(config, `${cmdKey}.${dValue}`)) // eg. config.chart.inputs[0][1]
+      query.inputs = getInLineKeyInputIndex(dValue)
     } else {
       log.warn(`${dValue} is not supported callback data`)
     }
@@ -144,13 +150,14 @@ export async function getChartImgPhoto(apiKey, chartQuery) {
 }
 
 /**
- * merge 'config.chart.default' with 'query' for chart-img chart query
+ * merge 'config[cmdKey].default' with 'query' for chart-img chart query
  *
+ * @param {String} cmdKey
  * @param {Object} query
  * @returns {Object}
  */
-export function getChartImgQuery(query) {
-  const chartQuery = Object.assign({}, config.chart?.default) // deep copy config chart default
+export function getChartImgQuery(cmdKey, query) {
+  const chartQuery = Object.assign({}, config[cmdKey]?.default) // deep copy config cmdKey default
 
   Object.assign(chartQuery, omit(query, ['text', 'inputs'])) // merge config chart default with query
 
@@ -158,20 +165,26 @@ export function getChartImgQuery(query) {
 }
 
 /**
+ * @param {String} cmdKey
  * @param {Object} query
  * @param {Boolean} includeSymbols
  * @returns {Object}
  */
-export function getInitChartInlineKeys(query, includeSymbols = true) {
+export function getInitChartInlineKeys(cmdKey, query, includeSymbols = true) {
   const { symbol: qSymbol, interval: qInterval } = query
 
-  const symbol = qSymbol || config.chart.default.symbol
-  const interval = qInterval || config.chart.default.interval
+  const symbol = qSymbol || config[cmdKey].default.symbol
+  const interval = qInterval || config[cmdKey].default.interval
+  const inputIncludes = config[cmdKey].inputs ? includeSymbols : false
 
-  const inputIntvs = getChartInlineKeyIntervals(symbol, includeSymbols)
-  const inputSymbols = getChartInlineKeyInputSymbols(interval, includeSymbols)
+  const inputIntvs = getChartInlineKeyIntervals(cmdKey, symbol, inputIncludes)
 
-  if (includeSymbols) {
+  if (inputIncludes) {
+    const inputSymbols = getChartInLineKeyInputSymbols(
+      cmdKey,
+      interval,
+      inputIncludes
+    )
     return [inputIntvs, ...inputSymbols]
   } else {
     return [inputIntvs]
@@ -179,6 +192,7 @@ export function getInitChartInlineKeys(query, includeSymbols = true) {
 }
 
 /**
+ * @param {String} cmdKey
  * @param {Integer} iRow
  * @param {Integer} iColumn
  * @param {String} interval
@@ -186,15 +200,25 @@ export function getInitChartInlineKeys(query, includeSymbols = true) {
  * @returns {Object}
  */
 export function getIndexChartInlineKeys(
+  cmdKey,
   iRow,
   iColumn,
   interval,
   includeSymbols = true
 ) {
-  const inputIntvs = getChartInlineKeyInputIntervals(iRow, iColumn, includeSymbols) // prettier-ignore
-  const inputSymbols = getChartInlineKeyInputSymbols(interval, includeSymbols)
+  const inputIntvs = getChartInlineKeyInputIntervals(
+    cmdKey,
+    iRow,
+    iColumn,
+    includeSymbols
+  )
 
   if (includeSymbols) {
+    const inputSymbols = getChartInLineKeyInputSymbols(
+      cmdKey,
+      interval,
+      includeSymbols
+    )
     return [inputIntvs, ...inputSymbols]
   } else {
     return [inputIntvs]
@@ -202,15 +226,16 @@ export function getIndexChartInlineKeys(
 }
 
 /**
+ * @param {String} cmdKey
  * @param {String} symbol
  * @param {Boolean} includeSymbols
  * @returns {Object}
  */
-function getChartInlineKeyIntervals(symbol, includeSymbols = true) {
-  return config.chart.intervals.map((interval) => {
+function getChartInlineKeyIntervals(cmdKey, symbol, includeSymbols = true) {
+  return config[cmdKey].intervals.map((interval) => {
     return {
       text: interval,
-      callback_data: `${config.version}|chart|${includeSymbols}|interval=${interval}|symbol=${symbol}`, // must be within 64 byte
+      callback_data: `${config.version}|${cmdKey}|${includeSymbols}|interval=${interval}|symbol=${symbol}`, // must be within 64 byte
     }
   })
 }
@@ -218,31 +243,42 @@ function getChartInlineKeyIntervals(symbol, includeSymbols = true) {
 /**
  * eg. config.chart.inputs[iRow][iColumn]
  *
+ * @param {String} cmdKey
  * @param {Integer} iRow
  * @param {Integer} iColumn
  * @param {Boolean} includeSymbols
  * @returns {Object}
  */
-function getChartInlineKeyInputIntervals(iRow, iColumn, includeSymbols = true) {
-  return config.chart.intervals.map((interval) => {
+function getChartInlineKeyInputIntervals(
+  cmdKey,
+  iRow,
+  iColumn,
+  includeSymbols = true
+) {
+  return config[cmdKey].intervals.map((interval) => {
     return {
       text: interval,
-      callback_data: `${config.version}|chart|${includeSymbols}|interval=${interval}|inputs[${iRow}][${iColumn}]`, // must be within 64 byte
+      callback_data: `${config.version}|${cmdKey}|${includeSymbols}|interval=${interval}|inputs[${iRow}][${iColumn}]`, // must be within 64 byte
     }
   })
 }
 
 /**
+ * @param {String} cmdKey
  * @param {String} interval
  * @param {Boolean} includeSymbols
  * @returns {Object}
  */
-function getChartInlineKeyInputSymbols(interval, includeSymbols = true) {
-  return config.chart.inputs.map((input, iRow) =>
+function getChartInLineKeyInputSymbols(
+  cmdKey,
+  interval,
+  includeSymbols = true
+) {
+  return config[cmdKey].inputs.map((input, iRow) =>
     input.map((query, iColumn) => {
       return {
         text: query.text,
-        callback_data: `${config.version}|chart|${includeSymbols}|interval=${interval}|inputs[${iRow}][${iColumn}]`, // must be within 64 byte
+        callback_data: `${config.version}|${cmdKey}|${includeSymbols}|interval=${interval}|inputs[${iRow}][${iColumn}]`, // must be within 64 byte
       }
     })
   )
@@ -252,7 +288,7 @@ function getChartInlineKeyInputSymbols(interval, includeSymbols = true) {
  * @param {String} dValue eg. 'inputs[1][3]'
  * @returns {Object} eg. { row: 1, column: 3 }
  */
-function getInputIndex(dValue) {
+function getInLineKeyInputIndex(dValue) {
   const match = dValue.match(/inputs\[(\d+)\]\[(\d+)\]/)
 
   if (match) {
@@ -261,6 +297,6 @@ function getInputIndex(dValue) {
       column: parseInt(match[2]),
     }
   } else {
-    throw Error('Inalid Inputs Format')
+    throw Error('Invalid Inputs Format')
   }
 }
