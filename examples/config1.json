@@ -1,0 +1,508 @@
+{
+  "version": 1,
+  "chart": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "CAPITALCOM:US100",
+      "interval": "1W",
+      "theme": "dark"
+    }
+  },
+  "crypto": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "CAPITALCOM:CIX",
+      "interval": "1W",
+      "theme": "dark"
+    },
+    "inputs": [
+      [
+        {
+          "text": "BTCUSDT",
+          "symbol": "BINANCE:BTCUSDT",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "ETHUSDT",
+          "symbol": "BINANCE:ETHUSDT",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "BNBUSDT",
+          "symbol": "BINANCE:BNBUSDT",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "XRPUSDT",
+          "symbol": "BINANCE:XRPUSDT",
+          "studies": ["RSI"]
+        }
+      ],
+      [
+        {
+          "text": "ADAUSDT",
+          "symbol": "BINANCE:ADAUSDT",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "DOGEUSDT",
+          "symbol": "BINANCE:DOGEUSDT",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "MATICUSDT",
+          "symbol": "BINANCE:MATICUSDT",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "SOLUSDT",
+          "symbol": "BINANCE:SOLUSDT",
+          "studies": ["MACD"]
+        }
+      ],
+      [
+        {
+          "text": "DOTUSDT",
+          "symbol": "BINANCE:DOTUSDT",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "LTCUSDT",
+          "symbol": "BINANCE:LTCUSDT",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "SHIBUSDT",
+          "symbol": "BINANCE:SHIBUSDT",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "TRXUSDT",
+          "symbol": "BINANCE:TRXUSDT",
+          "studies": ["CCI"]
+        }
+      ],
+      [
+        {
+          "text": "AVAXUSDT",
+          "symbol": "BINANCE:AVAXUSDT",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "LINKUSDT",
+          "symbol": "BINANCE:LINKUSDT",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "ATOMUSDT",
+          "symbol": "BINANCE:ATOMUSDT",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "XMRUSDT",
+          "symbol": "BINANCE:XMRUSDT",
+          "studies": ["BB", "MOM"]
+        }
+      ]
+    ]
+  },
+  "nasdaq": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "CAPITALCOM:US100",
+      "interval": "1W",
+      "theme": "dark"
+    },
+    "inputs": [
+      [
+        {
+          "text": "AAPL",
+          "symbol": "NASDAQ:AAPL",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "TSLA",
+          "symbol": "NASDAQ:TSLA",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "MSFT",
+          "symbol": "NASDAQ:MSFT",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "NVDA",
+          "symbol": "NASDAQ:NVDA",
+          "studies": ["RSI"]
+        }
+      ],
+      [
+        {
+          "text": "AMZN",
+          "symbol": "NASDAQ:AMZN",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "GOOGL",
+          "symbol": "NASDAQ:GOOGL",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "META",
+          "symbol": "NASDAQ:META",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "AMD",
+          "symbol": "NASDAQ:AMD",
+          "studies": ["MACD"]
+        }
+      ],
+      [
+        {
+          "text": "INTC",
+          "symbol": "NASDAQ:INTC",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "NFLX",
+          "symbol": "NASDAQ:NFLX",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "COIN",
+          "symbol": "NASDAQ:COIN",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "PYPL",
+          "symbol": "NASDAQ:PYPL",
+          "studies": ["CCI"]
+        }
+      ],
+      [
+        {
+          "text": "MRNA",
+          "symbol": "NASDAQ:MRNA",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "ABNB",
+          "symbol": "NASDAQ:ABNB",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "ADBE",
+          "symbol": "NASDAQ:ADBE",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "COST",
+          "symbol": "NASDAQ:COST",
+          "studies": ["BB", "MOM"]
+        }
+      ]
+    ]
+  },
+  "nyse": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "NYSE:NYA",
+      "interval": "1W",
+      "theme": "dark"
+    },
+    "inputs": [
+      [
+        {
+          "text": "BABA",
+          "symbol": "NYSE:BABA",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "AMC",
+          "symbol": "NYSE:AMC",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "GME",
+          "symbol": "NYSE:GME",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "SQ",
+          "symbol": "NYSE:SQ",
+          "studies": ["RSI"]
+        }
+      ],
+      [
+        {
+          "text": "SHOP",
+          "symbol": "NYSE:SHOP",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "DIS",
+          "symbol": "NYSE:DIS",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "SHOP",
+          "symbol": "NYSE:SHOP",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "XOM",
+          "symbol": "NYSE:XOM",
+          "studies": ["MACD"]
+        }
+      ],
+      [
+        {
+          "text": "BA",
+          "symbol": "NYSE:BA",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "TSM",
+          "symbol": "NYSE:TSM",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "CRM",
+          "symbol": "NYSE:CRM",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "KO",
+          "symbol": "NYSE:KO",
+          "studies": ["CCI"]
+        }
+      ],
+      [
+        {
+          "text": "PFE",
+          "symbol": "NYSE:PFE",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "BAC",
+          "symbol": "NYSE:BAC",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "JPM",
+          "symbol": "NYSE:JPM",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "F",
+          "symbol": "NYSE:F",
+          "studies": ["BB", "MOM"]
+        }
+      ]
+    ]
+  },
+  "forex": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "CAPITALCOM:DXY",
+      "interval": "1W",
+      "theme": "dark"
+    },
+    "inputs": [
+      [
+        {
+          "text": "EURUSD",
+          "symbol": "FOREXCOM:EURUSD",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "GBPUSD",
+          "symbol": "FOREXCOM:GBPUSD",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "AUDUSD",
+          "symbol": "FOREXCOM:AUDUSD",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "USDJPY",
+          "symbol": "FOREXCOM:USDJPY",
+          "studies": ["RSI"]
+        }
+      ],
+      [
+        {
+          "text": "GBPJPY",
+          "symbol": "FOREXCOM:GBPJPY",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "USDCAD",
+          "symbol": "FOREXCOM:USDCAD",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "EURJPY",
+          "symbol": "FOREXCOM:EURJPY",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "USDCHF",
+          "symbol": "FOREXCOM:USDCHF",
+          "studies": ["MACD"]
+        }
+      ],
+      [
+        {
+          "text": "EURGBP",
+          "symbol": "FOREXCOM:EURGBP",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "NZDUSD",
+          "symbol": "FOREXCOM:NZDUSD",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "AUDJPY",
+          "symbol": "FOREXCOM:AUDJPY",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "GBPAUD",
+          "symbol": "FOREXCOM:GBPAUD",
+          "studies": ["CCI"]
+        }
+      ],
+      [
+        {
+          "text": "EURAUD",
+          "symbol": "FOREXCOM:EURAUD",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "CADJPY",
+          "symbol": "FOREXCOM:CADJPY",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "AUDCAD",
+          "symbol": "FOREXCOM:AUDCAD",
+          "studies": ["BB", "MOM"]
+        },
+        {
+          "text": "EURCAD",
+          "symbol": "FOREXCOM:EURCAD",
+          "studies": ["BB", "MOM"]
+        }
+      ]
+    ]
+  },
+  "cfd": {
+    "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
+    "default": {
+      "symbol": "CAPITALCOM:GOLD",
+      "interval": "1W",
+      "theme": "dark"
+    },
+    "inputs": [
+      [
+        {
+          "text": "GOLD",
+          "symbol": "CAPITALCOM:GOLD",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "SILVER",
+          "symbol": "CAPITALCOM:SILVER",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "COPPER",
+          "symbol": "CAPITALCOM:COPPER",
+          "studies": ["RSI"]
+        },
+        {
+          "text": "PLATINUM",
+          "symbol": "CAPITALCOM:PLATINUM",
+          "studies": ["RSI"]
+        }
+      ],
+      [
+        {
+          "text": "UK SUGAR",
+          "symbol": "CAPITALCOM:UKSUGAR",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "US COCOA",
+          "symbol": "CAPITALCOM:USCOCOA",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "US COTTON",
+          "symbol": "CAPITALCOM:USCOTTON",
+          "studies": ["MACD"]
+        }
+      ],
+      [
+        {
+          "text": "NATURAL GAS",
+          "symbol": "CAPITALCOM:NATURALGAS",
+          "studies": ["CCI"]
+        },
+        {
+          "text": "CRUDE OIL",
+          "symbol": "CAPITALCOM:OIL_CRUDE",
+          "studies": ["CCI"]
+        }
+      ]
+    ]
+  },
+  "commands": [
+    {
+      "command": "/start",
+      "description": "Introduction"
+    },
+    {
+      "command": "/chart",
+      "description": "TradingView <exchange:symbol> <interval>"
+    },
+    {
+      "command": "/crypto",
+      "description": "TradingView CRYPTO Preset"
+    },
+    {
+      "command": "/nasdaq",
+      "description": "TradingView NASDAQ Preset"
+    },
+    {
+      "command": "/nyse",
+      "description": "TradingView NYSE Preset"
+    },
+    {
+      "command": "/forex",
+      "description": "TradingView FOREX Preset"
+    },
+    {
+      "command": "/cfd",
+      "description": "TradingView CFD Preset"
+    },
+    {
+      "command": "/example",
+      "description": "Command Examples"
+    }
+  ],
+  "messages": [
+    {
+      "name": "/start",
+      "text": "Hello, I am CHART-IMG Bot \uD83E\uDD16!\r\n\r\nI can help you access TradingView charts for a variety of assets, such as crypto, forex, stocks, indices, and futures.\r\n\r\nIt will soon be released as an open-source project with a step-by-step tutorial for setting up and running your own Telegram Bot.\r\n\r\nAPI Documentation:\r\ndoc.chart-img.com\r\n\r\nTo get started, simply type one of the following commands:\r\n/chart <exchange:symbol> <interval>\r\n/crypto\r\n/nasdaq\r\n/nyse\r\n/forex\r\n/cfd\r\n/example"
+    },
+    {
+      "name": "/example",
+      "text": "Example:\r\n/chart\r\n/chart nasdaq:aapl\r\n/chart binance:btcusdt 15m\r\n/chart capitalcom:gold 4h\r\n/chart <exchange:symbol> <interval>\r\n\r\nSupported intervals:\r\n1m,3m,5m,15m,30m,45m,1h,2h,3h,4h,1D,1W,1M,3M,6M,1Y\r\n\r\nSupported exchange symbols:\r\ndoc.chart-img.com/#tradingview-symbols"
+    }
+  ]
+}
