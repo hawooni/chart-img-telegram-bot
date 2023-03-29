@@ -1,8 +1,8 @@
 # CHART-IMG TELEGRAM BOT
 
-It is a simple Telegram bot based on the [CHART-IMG](https://doc.chart-img.com) API version 1 & 2, with support for Local Server and Serverless Setup. The main focus of this project is simplicity with fully customizable preset indicators for TradingView exchange symbols.
+It is a simple Telegram Bot based on the [CHART-IMG](https://doc.chart-img.com) API `version 1` & `2`, with support for Local Server and Serverless Setup. The main focus of this project is simplicity with fully customizable preset indicators for TradingView exchange symbols.
 
-> In the upcoming CHART-IMG website update, users can run a customized Telegram Bot by uploading a `config.json`.
+> In the upcoming website update, you will be able to run a fully managed Telegram Bot Server with customized configuration.
 
 ## Live Telegram Bot
 
@@ -24,8 +24,6 @@ All the requirements are available for free.
 You can preset the exchange symbol with indicators using CHART-IMG API version 1 or 2. However, version 2 is currently in BETA and not available to the public, so you might have to request the key to access it.
 
 ### config.json
-
-Example:
 
 ```json
 {
@@ -68,8 +66,7 @@ Example:
   },
   "group": {
     "enabled": false
-  },
-  "logLevel": "verbose"
+  }
 }
 ```
 
@@ -94,14 +91,18 @@ Example:
 | messages.\*.text                                  | String    | Yes      | -       | Set `command` message text. eg. `Hello, I am CHART-IMG Bot...`                                                                                                                                                        |
 | messages.\*.parseMode                             | String    | No       | -       | Set `command` message text parse mode. `MarkdownV2`, `HTML`                                                                                                                                                           |
 | private                                           | Object    | No       | -       | -                                                                                                                                                                                                                     |
-| private.enabled                                   | Boolean   | No       | `true`  | Enable private message response. If `false`, the bot will not send any reply.                                                                                                                                         |
+| private.enabled                                   | Boolean   | No       | `true`  | Enable private message response. If `false`, the bot will not send any reply to private messages.                                                                                                                     |
 | private.allowFromIds                              | Integer[] | No       | -       | White List Private Ids. If not empty, the bot will send a reply to the from id included in the array.                                                                                                                 |
 | group                                             | Object    | No       | -       | -                                                                                                                                                                                                                     |
-| group.enabled                                     | Boolean   | No       | `true`  | Enable group message response. If `false`, the bot will not send any reply.                                                                                                                                           |
+| group.enabled                                     | Boolean   | No       | `true`  | Enable group message response. If `false`, the bot will not send any reply to group messages.                                                                                                                         |
 | group.allowFromIds                                | Integer[] | No       | -       | White List Group Ids. If not empty, the bot will send a reply to the group id included in the array.                                                                                                                  |
 | logLevel                                          | String    | No       | `info`  | Console output level. [`error`, `warn`, `info`, `verbose`, `debug`]                                                                                                                                                   |
+| override                                          | Object    | No       | -       | Override the app settings.                                                                                                                                                                                            |
+| override.chartImgApiURL                           | String    | No       | -       | Override CHART-IMG API Base URL. eg. `https://beta-api.chart-img.com`                                                                                                                                                 |
 
 #### Example Version 1
+
+Refer to the example in the folder `/examples/config1.json`.
 
 ```json
 {
@@ -144,9 +145,14 @@ Example:
 
 #### Example Version 2
 
+Refer to the example in the folder `/examples/config2.json`.
+
 ```json
 {
   "version": 2,
+  "override": {
+    "chartImgApiURL": "https://beta-api.chart-img.com"
+  },
   "/crypto": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
@@ -222,6 +228,36 @@ Example:
 ```
 
 ### wrangler.toml
+
+Even if you are not using the serverless setup option #2, you must include your credentials in the `wrangler.toml`. The `.env` option may be available in a future update.
+
+```toml
+name = "chart-img-telegram-bot"
+
+main = "src/index.js"
+compatibility_date = "2022-11-30"
+
+
+[vars]
+NGROK_TOKEN = "YOUR_NGROK_TOKEN_IF_NEEDED"
+CHART_IMG_API_KEY = "YOUR_CHART_IMG_API_KEY"
+TELEGRAM_API_TOKEN = "YOUR_TELEGRAM_API_TOKEN"
+TELEGRAM_SECRET_TOKEN = "somethingRandomHere"
+```
+
+| Variable              | Type   | Required | Descripton                                                                                                                                 |
+| --------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| CHART_IMG_API_KEY     | String | Yes      | CHART-IMG API Access Key. To obtain your key, log-in to [chart-img.com](https://chart-img.com) using your Google account and generate key. |
+| TELEGRAM_API_TOKEN    | String | Yes      | Telegram API Token. Refer to Telegram API [documentation](https://core.telegram.org/bots).                                                 |
+| TELEGRAM_SECRET_TOKEN | String | Yes      | To verify the Telegram Webhook payload, generate a random string only known to you.                                                        |
+
+#### Local Server Setup
+
+If you are not using the serverless setup option #2, you must set up a secured proxy to forward the webhook payload to your local server. I highly recommend using an NGROK tunnel. You can create a free account at [ngrok.com](https://ngrok.com) and get the token.
+
+| Variable    | Type   | Required | Descripton        |
+| ----------- | ------ | -------- | ----------------- |
+| NGROK_TOKEN | String | No       | NGROK Auth Token. |
 
 ## Setup Option #1 (Local Server)
 
