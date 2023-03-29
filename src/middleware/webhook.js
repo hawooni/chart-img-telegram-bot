@@ -1,3 +1,4 @@
+import log from '../helper/logger'
 import { JsonResponse } from '../helper/response'
 
 export const vTelegramSecretToken = (req, { TELEGRAM_SECRET_TOKEN }) => {
@@ -6,6 +7,7 @@ export const vTelegramSecretToken = (req, { TELEGRAM_SECRET_TOKEN }) => {
   if (!apiSecretToken || apiSecretToken === TELEGRAM_SECRET_TOKEN) {
     // next()
   } else {
+    log.warn('Telegram Secret Token does not match.')
     return new JsonResponse()
   }
 }
