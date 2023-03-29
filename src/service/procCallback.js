@@ -1,9 +1,8 @@
 import procError from './procError'
 import config from '../../config.json' assert { type: 'json' }
 
-import { reservedKeys } from '../helper/config'
 import { sendChatAction, editAttachMessageMedia } from '../helper/telegram'
-import { InvalidConfigError } from '../error'
+import { InvalidCallbackDataError } from '../error'
 
 import {
   getChartImgQuery,
@@ -23,10 +22,10 @@ export default async function (payload, env) {
 
   try {
     if (parseInt(version) !== config.version) {
-      throw new InvalidConfigError('Callback data version does not match')
+      throw new InvalidCallbackDataError('Callback data version does not match')
     }
 
-    if (!reservedKeys.includes(cmdKey) && config[cmdKey]) {
+    if (config[cmdKey]) {
       const dataQuery = getQueryByCallbackData(data)
       const chartQuery = getChartImgQuery(cmdKey, dataQuery)
       const includeSymbols = cmdParam === 'true'
@@ -67,7 +66,7 @@ export default async function (payload, env) {
         optMedia
       )
     } else {
-      throw new InvalidConfigError('Invalid callback data type')
+      throw new InvalidCallbackDataError('Invalid callback data type')
     }
   } catch (error) {
     return procError(error, message.chat, env)

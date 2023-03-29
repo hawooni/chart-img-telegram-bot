@@ -3,7 +3,7 @@
   "override": {
     "chartImgApiURL": "https://beta-api.chart-img.com"
   },
-  "chart": {
+  "/chart": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:US100",
@@ -17,7 +17,7 @@
       ]
     }
   },
-  "crypto": {
+  "/crypto": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:CIX",
@@ -261,7 +261,7 @@
       ]
     ]
   },
-  "nasdaq": {
+  "/nasdaq": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:US100",
@@ -505,7 +505,7 @@
       ]
     ]
   },
-  "nyse": {
+  "/nyse": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "NYSE:NYA",
@@ -749,7 +749,7 @@
       ]
     ]
   },
-  "forex": {
+  "/forex": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:DXY",
@@ -993,7 +993,7 @@
       ]
     ]
   },
-  "cfd": {
+  "/cfd": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:GOLD",

@@ -27,8 +27,7 @@ import {
  * @returns {Object} eg. { symbol: 'BINANCE:BTCUSDT', interval: '4h' }
  */
 export function getQueryByCmdText(text, splitBy = ' ') {
-  const [cmd, symbol, interval] = text.split(splitBy)
-  const cmdKey = cmd.substring(1) // /chart => chart
+  const [cmdKey, symbol, interval] = text.split(splitBy)
   const query = {}
 
   if (symbol) {
@@ -63,7 +62,7 @@ export function getQueryByCmdText(text, splitBy = ' ') {
  * @returns {Object}
  */
 export function getQueryByCallbackData(data, splitBy = '|') {
-  const splits = data.split(splitBy) // version|cmdKey|cmdParam|...
+  const splits = data.split(splitBy) // version|/cmdKey|cmdParam|...
   const cmdKey = splits[1]
   const query = {}
 

@@ -8,6 +8,7 @@ import {
   InvalidConfigError,
   InvalidRequestError,
   InvalidCommandError,
+  InvalidCallbackDataError,
   UnprocessableRequestError,
   TooManyRequestError,
   MessageNameNotFoundError,
@@ -36,13 +37,21 @@ export default function (error, chat, env) {
       text: MSG.INVALID_COMMAND,
     })
   } else if (
-    error instanceof InvalidConfigError ||
     error instanceof InvalidRequestError ||
     error instanceof UnprocessableRequestError
   ) {
     return sendMessage(TELEGRAM_API_TOKEN, {
       chat_id: chat.id,
       text: error.message || MSG.CONFIG_ERROR,
+    })
+  } else if (
+    error instanceof InvalidConfigError ||
+    error instanceof InvalidCallbackDataError
+  ) {
+    error.message && log.verbose(error.message)
+    return sendMessage(TELEGRAM_API_TOKEN, {
+      chat_id: chat.id,
+      text: MSG.CONFIG_CHANGE,
     })
   } else if (error instanceof TooManyRequestError) {
     return sendMessage(TELEGRAM_API_TOKEN, {

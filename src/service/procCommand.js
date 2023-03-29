@@ -1,7 +1,6 @@
 import procError from './procError'
 import config from '../../config.json' assert { type: 'json' }
 
-import { reservedKeys } from '../helper/config'
 import { sendMessage, sendPhoto, sendChatAction } from '../helper/telegram'
 import { MessageNameNotFoundError } from '../error'
 
@@ -22,11 +21,11 @@ export default async function (chat, text, env) {
   const { TELEGRAM_API_TOKEN, CHART_IMG_API_KEY } = env
 
   try {
-    const cmdKey = text.split(' ')[0].split('@')[0].substring(1) // eg. /chart => chart, /chart@exampleBot => chart
+    const cmdKey = text.split(' ')[0].split('@')[0]
 
-    if (!reservedKeys.includes(cmdKey) && config[cmdKey]) {
+    if (config[cmdKey]) {
       const textQuery = config[cmdKey].inputs
-        ? getQueryByCmdText(`/${cmdKey}`) // preset exist
+        ? getQueryByCmdText(cmdKey) // preset exist
         : getQueryByCmdText(text)
 
       const chartQuery = getChartImgQuery(cmdKey, textQuery)

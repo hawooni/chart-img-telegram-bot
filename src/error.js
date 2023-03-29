@@ -12,6 +12,13 @@ export class InvalidCommandError extends Error {
   }
 }
 
+export class InvalidCallbackDataError extends Error {
+  constructor(message, opt) {
+    super(message, opt)
+    this.name = this.constructor.name
+  }
+}
+
 export class InvalidSymbolError extends Error {
   constructor(symbol, opt) {
     super(`Invalid Symbol${symbol ? ' (' + symbol + ')' : ''}`, opt)
