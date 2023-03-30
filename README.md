@@ -2,6 +2,8 @@
 
 It is a simple Telegram Bot based on the [CHART-IMG](https://doc.chart-img.com) API `version 1` & `2`, with support for Local Server and Serverless Setup. The main focus of this project is simplicity with fully customizable preset indicators for TradingView exchange symbols.
 
+> I will soon provide a step-by-step tutorial that guides you through setting up and running your server.
+
 > In the upcoming website update, you will be able to run a fully managed Telegram Bot Service with customized configuration.
 
 ## Live Telegram Bot
@@ -18,6 +20,16 @@ All the requirements are available for free.
 - CHART-IMG API Access Key
 - NGROK Token (HTTPS Tunnel) - Deploy with Docker / Local Server
 - Cloudflare Account (Workers) - Deploy with Serverless Workers
+
+## Clone the repo
+
+```
+$ git clone https://github.com/hawooni/chart-img-telegram-bot.git
+```
+
+```
+$ cd chart-img-telegram-bot
+```
 
 ## Configuration
 
@@ -241,7 +253,7 @@ $ npm run setup-telegram
 > chart-img-telegram-bot@1.0.0 setup-telegram
 > node --no-warnings src/setup/telegram
 
-? Enter the server https base URL : https://chart-img-telegram-bot-development.<WORKER_NAME>.workers.dev
+? Enter the server https base URL : https://chart-img-telegram-bot.<WORKER_NAME>.workers.dev
 
 Successfully setup Telegram Webhook!
 ```
