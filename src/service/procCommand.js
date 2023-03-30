@@ -13,7 +13,7 @@ import {
 
 /**
  * @param {Chat} chat message
- * @param {String} text command eg. /chart binance:btcusdt, /nasdaq, /crypto, ...
+ * @param {String} text command eg. /chart binance:btcusdt, /nasdaq, /crypto, /crypto@yourBot
  * @param {Env} env
  * @returns {Promise}
  */
@@ -26,7 +26,7 @@ export default async function (chat, text, env) {
     if (config[cmdKey]) {
       const textQuery = config[cmdKey].inputs
         ? getQueryByCmdText(cmdKey) // preset exist
-        : getQueryByCmdText(text)
+        : getQueryByCmdText(text.split('@')[0])
 
       const chartQuery = getChartImgQuery(cmdKey, textQuery)
 

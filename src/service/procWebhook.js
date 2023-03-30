@@ -10,7 +10,7 @@ import { ChatType, ChatStatus } from '../enum/telegram'
  * @returns {Promise}
  */
 export default async function (payload, env) {
-  const { message, my_chat_member, channel_post, callback_query } = payload
+  const { message, my_chat_member, callback_query } = payload
 
   if (message) {
     const { chat, text, from } = message
@@ -20,11 +20,11 @@ export default async function (payload, env) {
 
       if (chat.type === ChatType.PRIVATE) {
         if (isPrivateMessageEnabled()) {
-          if (isPrivateMessageAllowed(message)) {
+          if (isPrivateMessageAllowed(from.id)) {
             log.info(`${chat.type} message from ${chat.first_name} (${from.id}) - ${cmdText}`) // prettier-ignore
             await procCommand(chat, cmdText, env)
           } else {
-            log.verbose(`private message fromId (${from.id}) is not allowed`)
+            log.verbose(`private message from ${from.first_name} (${from.id}) is not allowed`) // prettier-ignore
           }
         } else {
           log.verbose('private message is disabled')
@@ -34,23 +34,16 @@ export default async function (payload, env) {
         chat.type === ChatType.SUPERGROUP
       ) {
         if (isGroupMessageEnabled()) {
-          if (isGroupMessageAllowed(message)) {
-            log.info(`${chat.type} message from ${chat.title} (${from.id}) - ${cmdText}`) // prettier-ignore
+          if (isGroupMessageAllowed(from.id)) {
+            log.info(`${chat.type} message from ${from.first_name} (${from.id}) - ${cmdText}`) // prettier-ignore
             await procCommand(chat, cmdText, env)
           } else {
-            log.verbose(`group message fromId (${from.id}) is not allowed`)
+            log.verbose(`group message from ${from.first_name} (${from.id}) is not allowed`) // prettier-ignore
           }
         } else {
           log.verbose('group message is disabled')
         }
       }
-    }
-  } else if (channel_post) {
-    const { chat, text } = channel_post
-
-    if (text && text.startsWith('/')) {
-      const cmdText = text.trim()
-      log.verbose(`channel message from ${chat.title} - ${cmdText}`)
     }
   } else if (my_chat_member) {
     const { chat, old_chat_member, new_chat_member } = my_chat_member
@@ -59,7 +52,6 @@ export default async function (payload, env) {
       status: newStatus,
       can_send_messages: newCanSendMsg, // group
       can_send_media_messages: newCanSendMediaMsg, // group
-      can_post_messages: newCanPostMsg, // channel,
     } = new_chat_member
 
     const updateInfo = `${chat.type} ${chat.title} (${chat.id}) - ${newStatus} `
@@ -88,35 +80,20 @@ export default async function (payload, env) {
       ) {
         log.info(`bot left ${updateInfo}`)
       }
-    } else if (chat.type === ChatType.CHANNEL) {
-      if (
-        newStatus === ChatStatus.ADMINISTRATOR &&
-        oldStatus !== ChatStatus.ADMINISTRATOR
-      ) {
-        log.info(`bot joined ${updateInfo}`)
-      } else if (
-        newStatus === ChatStatus.LEFT ||
-        newStatus === ChatStatus.KICKED
-      ) {
-        log.info(`bot left ${updateInfo}`)
-      } else if (newCanPostMsg) {
-        log.verbose(`bot is allowed to post ${updateInfo}`)
-      } else if (!newCanPostMsg) {
-        log.verbose(`bot is not allowed to post ${updateInfo}`)
-      }
     }
   } else if (callback_query) {
     log.verbose(`telegram webhook - callback_query`)
-    const message = callback_query.message
-    const { chat, from } = message
+
+    const { from } = callback_query
+    const { chat } = callback_query.message
 
     if (chat.type === ChatType.PRIVATE) {
       if (isPrivateMessageEnabled()) {
-        if (isPrivateMessageAllowed(message)) {
-          log.info(`${chat.type} callback_query from ${chat.first_name} (${from.id})`) // prettier-ignore
+        if (isPrivateMessageAllowed(from.id)) {
+          log.info(`${chat.type} callback_query from ${from.first_name} (${from.id})`) // prettier-ignore
           await procCallbackData(callback_query, env)
         } else {
-          log.verbose(`private callback_query fromId (${from.id}) is not allowed`) // prettier-ignore
+          log.verbose(`private callback_query from (${from.id}) is not allowed`) // prettier-ignore
         }
       } else {
         log.verbose('private message is disabled')
@@ -126,11 +103,11 @@ export default async function (payload, env) {
       chat.type === ChatType.SUPERGROUP
     ) {
       if (isGroupMessageEnabled()) {
-        if (isGroupMessageAllowed(message)) {
+        if (isGroupMessageAllowed(from.id)) {
           log.info(`${chat.type} callback_query from ${chat.title} (${from.id})`) // prettier-ignore
           await procCallbackData(callback_query, env)
         } else {
-          log.verbose(`group callback_query fromId (${from.id}) is not allowed`)
+          log.verbose(`group callback_query from (${from.id}) is not allowed`)
         }
       } else {
         log.verbose('group message is disabled')
@@ -152,14 +129,14 @@ function isPrivateMessageEnabled() {
 }
 
 /**
- * @param {Message} message
+ * @param {Message} fromId
  * @returns {Boolean}
  */
-function isPrivateMessageAllowed(message) {
+function isPrivateMessageAllowed(fromId) {
   if (config.private?.allowFromIds) {
     return (
       config.private.allowFromIds.length === 0 ||
-      config.private.allowFromIds.includes(message.from.id)
+      config.private.allowFromIds.includes(fromId)
     )
   }
   return true
@@ -176,14 +153,14 @@ function isGroupMessageEnabled() {
 }
 
 /**
- * @param {Message} message
+ * @param {Message} fromId
  * @returns {Boolean}
  */
-function isGroupMessageAllowed(message) {
+function isGroupMessageAllowed(fromId) {
   if (config.group?.allowFromIds) {
     return (
       config.group.allowFromIds.length === 0 ||
-      config.group.allowFromIds.includes(message.from.id)
+      config.group.allowFromIds.includes(fromId)
     )
   }
   return true
