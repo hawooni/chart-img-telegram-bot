@@ -154,6 +154,8 @@ $ npm install
 
 #### Deploy Option #1 (Local Server)
 
+Run Telegram Bot Server using NGROK as a proxy tunnel and local server with Wrangler.
+
 ```
 $ npm start
 ```
@@ -200,7 +202,7 @@ Debugger attached.
 
 #### Deploy Option #2 (Serverless)
 
-You need to log in to Cloudflare and create a username if you haven't done so.
+If you haven't already, please log in to Cloudflare and create a name for your worker.
 
 ```
 $ npx wrangler login
@@ -220,12 +222,12 @@ Your worker has access to the following bindings:
 - Vars:
   - NGROK_TOKEN: "HIDDEN..."
   - CHART_IMG_API_KEY: "HIDDEN..."
-  - TELEGRAM_API_TOKEN: "6205547541:HIDDEN..."
+  - TELEGRAM_API_TOKEN: "HIDDEN..."
   - TELEGRAM_SECRET_TOKEN: "HIDDEN..."
 Total Upload: 78.97 KiB / gzip: 15.42 KiB
 Uploaded chart-img-telegram-bot (1.09 sec)
 Published chart-img-telegram-bot (3.61 sec)
-  https://chart-img-telegram-bot.username.workers.dev
+  https://chart-img-telegram-bot.<WORKER_NAME>.workers.dev
 Current Deployment ID: 8faf02f1-2219-474b-aa15-eaeaacf662dc
 ```
 
@@ -239,7 +241,7 @@ $ npm run setup-telegram
 > chart-img-telegram-bot@1.0.0 setup-telegram
 > node --no-warnings src/setup/telegram
 
-? Enter the server https base URL : https://chart-img-telegram-bot-development.username.workers.dev
+? Enter the server https base URL : https://chart-img-telegram-bot-development.<WORKER_NAME>.workers.dev
 
 Successfully setup Telegram Webhook!
 ```
