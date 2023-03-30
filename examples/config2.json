@@ -7,7 +7,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:US100",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
@@ -21,7 +21,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:CIX",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
@@ -265,7 +265,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:US100",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
@@ -509,7 +509,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "NYSE:NYA",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
@@ -753,7 +753,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:DXY",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
@@ -997,7 +997,7 @@
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:GOLD",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark",
       "studies": [
         {
