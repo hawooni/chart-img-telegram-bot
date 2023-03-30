@@ -498,7 +498,7 @@
   "messages": [
     {
       "name": "/start",
-      "text": "Hello, I am CHART-IMG Bot \uD83E\uDD16!\r\n\r\nI can help you access TradingView charts for a variety of assets, such as crypto, forex, stocks, indices, and futures.\r\n\r\nTo get started, simply type one of the following commands:\r\n\r\n\/chart <exchange:symbol> <interval>\r\n\/crypto\r\n\/nasdaq\r\n\/nyse\r\n\/forex\r\n\/cfd\r\n\/example\r\n\r\nAPI Documentation:\r\ndoc.chart-img.com"
+      "text": "Hello, I am CHART-IMG Bot \uD83E\uDD16!\r\n\r\nI can help you access TradingView charts for a variety of assets, such as crypto, forex, stocks, indices, and futures.\r\n\r\nTo get started, simply type one of the following commands:\r\n\r\n/chart <exchange:symbol> <interval>\r\n/crypto\r\n/nasdaq\r\n/nyse\r\n/forex\r\n/cfd\r\n/example\r\n\r\nAPI Documentation:\r\ndoc.chart-img.com"
     },
     {
       "name": "/example",
