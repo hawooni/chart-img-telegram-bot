@@ -154,8 +154,19 @@ Make sure to have two files `wrangler.toml` and `config.json` ready with the nec
 
 This is the simplest way to run the server with only two files `wrangler.toml` and `config.json`.
 
+Replace \<PATH\> with the file path.
+
 ```
-$ docker run --restart=always --name telegram-bot -v "$(pwd)"/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v "$(pwd)"/config.json:/chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
+$ docker run --restart=always --name telegram-bot -v <PATH>/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v <PATH>/config.json:chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
+```
+
+Linux:
+
+```
+$ docker run --restart=always --name telegram-bot \
+  -v $(pwd)/wrangler.toml:/chart-img-telegram-bot/wrangler.toml \
+  -v $(pwd)/config.json:/chart-img-telegram-bot/config.json \
+  -d hawooni/chart-img-telegram-bot:latest
 ```
 
 ### Deploy with NodeJS & NPM
