@@ -46,7 +46,7 @@ ngrok
   })
   .then(async (baseURL) => {
     console.log('------------------------------------------------------')
-    console.log(`${baseURL} => localhost:${port}`)
+    console.log(`${baseURL} => 127.0.0.1:${port}`)
     console.log('------------------------------------------------------')
 
     if (telegramSetup) {
