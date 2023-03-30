@@ -2,7 +2,7 @@
 
 It is a simple Telegram Bot based on the [CHART-IMG](https://doc.chart-img.com) API `version 1` & `2`, with support for Local Server and Serverless Setup. The main focus of this project is simplicity with fully customizable preset indicators for TradingView exchange symbols.
 
-> I will soon provide a step-by-step tutorial that guides you through setting up and running your server.
+> I will soon provide a tutorial that guides you in setting up and running your server.
 
 > In the upcoming website update, you will be able to run a fully managed Telegram Bot Service with customized configuration.
 
@@ -19,7 +19,7 @@ All the requirements are available for free.
 - Telegram API Token
 - CHART-IMG API Access Key
 - NGROK Token (HTTPS Tunnel) - Deploy with Docker / Local Server
-- Cloudflare Account (Workers) - Deploy with Serverless Workers
+- Cloudflare Account - Deploy with Serverless Workers
 
 ## Clone the repo
 
@@ -33,11 +33,11 @@ $ cd chart-img-telegram-bot
 
 ## Configuration
 
-You can preset the exchange symbol with indicators using CHART-IMG API version 1 or 2. However, version 2 is currently in BETA and not available to the public, so you might have to request the key to access it.
+You can preset the exchange symbol with indicators using CHART-IMG API version 1 or 2.
 
 ### config.json
 
-> Refer to the version `1` & `2` examples in the folder `/examples`.
+> Refer to the version 1 & 2 examples in the folder `/examples`.
 
 ```json
 {
@@ -46,7 +46,7 @@ You can preset the exchange symbol with indicators using CHART-IMG API version 1
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
       "symbol": "CAPITALCOM:US100",
-      "interval": "1W",
+      "interval": "1D",
       "theme": "dark"
     }
   },
@@ -116,7 +116,7 @@ You can preset the exchange symbol with indicators using CHART-IMG API version 1
 
 ### wrangler.toml
 
-Include your credentials in the file `wrangler.toml`. The `.env` option may be available in a future update.
+Include your credentials in the file `wrangler.toml`.
 
 ```toml
 name = "chart-img-telegram-bot"
@@ -140,7 +140,7 @@ TELEGRAM_SECRET_TOKEN = "somethingRandomHere"
 
 #### Docker / Local Server
 
-If you are not using the serverless deploy option, you need a secured proxy to forward the webhook payload to your local server. I recommend using NGROK. You can create an account at [ngrok.com](https://ngrok.com) and get the free auth token.
+If you are not using the serverless deploy option, you need a secured proxy tunnel to forward the webhook payload to your local server. I recommend using NGROK. You can create an account at [ngrok.com](https://ngrok.com) and get a free auth token.
 
 | Variable    | Type   | Required | Descripton                                                      |
 | ----------- | ------ | -------- | --------------------------------------------------------------- |
@@ -152,8 +152,10 @@ Make sure to have two files `wrangler.toml` and `config.json` ready with the nec
 
 ### Deploy with Docker Image
 
+This is the simplest way to run the server with only two files `wrangler.toml` and `config.json`.
+
 ```
-$ docker run --rm --name telegram-bot -v "$(pwd)"/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v "$(pwd)"/config.json:/chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
+$ docker run --restart=always --name telegram-bot -v "$(pwd)"/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v "$(pwd)"/config.json:/chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
 ```
 
 ### Deploy with NodeJS & NPM
@@ -166,28 +168,31 @@ $ npm install
 
 #### Deploy Option #1 (Local Server)
 
-Run Telegram Bot Server using NGROK as a proxy tunnel and local server with Wrangler.
+Run NGROK as a proxy tunnel to forward the webhook payload to your local port `8080` after updating the Telegram webhook URL.
 
 ```
-$ npm start
+$ npm run ngrok -- --port 8080 -t
 ```
 
 ```
-> chart-img-telegram-bot@1.0.0 start
-> npm run ngrok -- --port 8080 -t & npm run server-local -- --local --ip 127.0.0.1 --port 8080
-
-
-> chart-img-telegram-bot@1.0.0 server-local
-> npx wrangler dev --local --local --ip 127.0.0.1 --port 8080
-
-
 > chart-img-telegram-bot@1.0.0 ngrok
 > node --no-warnings src/setup/ngrok --port 8080 -t
 
 ngrok: connected
 ------------------------------------------------------
-https://b18c-104-255-13-171.ngrok.io => localhost:8080
+https://b18c-104-255-13-171.ngrok.io => 127.0.0.1:8080
 ------------------------------------------------------
+```
+
+Run Telegram bot server locally with the port `8080`.
+
+```
+$ npm run server-local -- --local --ip 127.0.0.1 --port 8080
+```
+
+```
+> chart-img-telegram-bot@1.0.0 server-local
+> npx wrangler dev --local --local --ip 127.0.0.1 --port 8080
 
  ⛅️ wrangler 2.13.0
 --------------------
@@ -257,3 +262,21 @@ $ npm run setup-telegram
 
 Successfully setup Telegram Webhook!
 ```
+
+##### Encrypt Variables (Optional)
+
+You should encrypt the variables in the Cloudflare Worker Settings or use the command `npx wrangler secret put <KEY> [OPTIONS]`.
+
+```
+$ npx wrangler secret put CHART_IMG_API_KEY
+```
+
+```
+ ⛅️ wrangler 2.13.0
+--------------------
+✔ Enter a secret value: … *************************************************
+🌀 Creating the secret for the Worker "chart-img-telegram-bot"
+✨ Success! Uploaded secret CHART_IMG_API_KEY
+```
+
+![/cf-env-variable](doc/cf-env-var.png?raw=true)
