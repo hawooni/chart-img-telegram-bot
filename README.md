@@ -2,7 +2,7 @@
 
 It is a simple Telegram Bot based on the [CHART-IMG](https://doc.chart-img.com) API `version 1` & `2`, with support for Local Server and Serverless Setup. The main focus of this project is simplicity with fully customizable preset indicators for TradingView exchange symbols.
 
-> I will soon provide a tutorial that guides you in setting up and running your server.
+The step by step [tutorial](https://chart-img.medium.com/tradingview-chart-telegram-bot-part1-328f1f4fcaac) on how to run your customized server.
 
 > In the upcoming website update, you will be able to run a fully managed Telegram Bot Service with customized configuration.
 
