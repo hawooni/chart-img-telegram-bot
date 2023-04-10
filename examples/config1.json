@@ -236,11 +236,6 @@
       ],
       [
         {
-          "text": "SHOP",
-          "symbol": "NYSE:SHOP",
-          "studies": ["MACD"]
-        },
-        {
           "text": "DIS",
           "symbol": "NYSE:DIS",
           "studies": ["MACD"]
@@ -253,6 +248,11 @@
         {
           "text": "XOM",
           "symbol": "NYSE:XOM",
+          "studies": ["MACD"]
+        },
+        {
+          "text": "PFE",
+          "symbol": "NYSE:PFE",
           "studies": ["MACD"]
         }
       ],

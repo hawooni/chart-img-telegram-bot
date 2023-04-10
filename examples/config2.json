@@ -575,19 +575,6 @@
       ],
       [
         {
-          "text": "SHOP",
-          "symbol": "NYSE:SHOP",
-          "studies": [
-            {
-              "name": "Volume",
-              "forceOverlay": true
-            },
-            {
-              "name": "MACD"
-            }
-          ]
-        },
-        {
           "text": "DIS",
           "symbol": "NYSE:DIS",
           "studies": [
@@ -616,6 +603,19 @@
         {
           "text": "XOM",
           "symbol": "NYSE:XOM",
+          "studies": [
+            {
+              "name": "Volume",
+              "forceOverlay": true
+            },
+            {
+              "name": "MACD"
+            }
+          ]
+        },
+        {
+          "text": "PFE",
+          "symbol": "NYSE:PFE",
           "studies": [
             {
               "name": "Volume",
