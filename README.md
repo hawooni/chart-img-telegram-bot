@@ -106,10 +106,10 @@ You can preset the exchange symbol with indicators using CHART-IMG API version 1
 | messages.\*.parseMode                         | String    | No       | -       | Set `command` message text parse mode. `MarkdownV2`, `HTML`                                                                                                                                                           |
 | private                                       | Object    | No       | -       | -                                                                                                                                                                                                                     |
 | private.enabled                               | Boolean   | No       | `true`  | Enable private message response. If `false`, the bot will not send any reply to private messages.                                                                                                                     |
-| private.allowFromIds                          | Integer[] | No       | -       | White List Private Ids. If not empty, the bot will send a reply to the from id included in the array.                                                                                                                 |
+| private.allowFromIds                          | Integer[] | No       | -       | Whitelist Private Ids. If not empty, the bot will send a reply to the from id included in the array.                                                                                                                  |
 | group                                         | Object    | No       | -       | -                                                                                                                                                                                                                     |
 | group.enabled                                 | Boolean   | No       | `true`  | Enable group message response. If `false`, the bot will not send any reply to group messages.                                                                                                                         |
-| group.allowFromIds                            | Integer[] | No       | -       | White List Group Ids. If not empty, the bot will send a reply to the group id included in the array.                                                                                                                  |
+| group.allowFromIds                            | Integer[] | No       | -       | Whitelist Group Ids. If not empty, the bot will send a reply to the group id included in the array.                                                                                                                   |
 | logLevel                                      | String    | No       | `info`  | Console output level. [`error`, `warn`, `info`, `verbose`, `debug`]                                                                                                                                                   |
 | override                                      | Object    | No       | -       | Override the app settings.                                                                                                                                                                                            |
 | override.chartImgApiURL                       | String    | No       | -       | Override CHART-IMG API Base URL. eg. `https://beta-api.chart-img.com`                                                                                                                                                 |
@@ -157,13 +157,13 @@ This is the simplest way to run the server with only two files `wrangler.toml` a
 Replace \<PATH\> with the file path.
 
 ```
-$ docker run --restart=always --name telegram-bot -v <PATH>/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v <PATH>/config.json:chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
+$ docker run --name telegram-bot -v <PATH>/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v <PATH>/config.json:chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
 ```
 
 Linux:
 
 ```
-$ docker run --restart=always --name telegram-bot \
+$ docker run --name telegram-bot \
   -v $(pwd)/wrangler.toml:/chart-img-telegram-bot/wrangler.toml \
   -v $(pwd)/config.json:/chart-img-telegram-bot/config.json \
   -d hawooni/chart-img-telegram-bot:latest
@@ -198,12 +198,12 @@ https://b18c-104-255-13-171.ngrok.io => 127.0.0.1:8080
 Run Telegram bot server locally with the port `8080`.
 
 ```
-$ npm run server-local -- --local --ip 127.0.0.1 --port 8080
+$ npm run server-local -- --ip 127.0.0.1 --port 8080
 ```
 
 ```
 > chart-img-telegram-bot@1.0.0 server-local
-> npx wrangler dev --local --local --ip 127.0.0.1 --port 8080
+> npx wrangler dev --local --ip 127.0.0.1 --port 8080
 
  ⛅️ wrangler 2.13.0
 --------------------
