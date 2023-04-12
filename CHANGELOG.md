@@ -2,6 +2,16 @@
 
 All notable changes to the project will be documented in this file.
 
+## [1.0.2] - 2023-04-12
+
+### Fixed
+
+- Fix READEME.md configuration documentation `</cmd>.default.inputs` to `</cmd>.inputs`.
+
+### Changed
+
+- Update `package.json` devDependencies `wrangler` to the latest version.
+
 ## [1.0.1] - 2023-04-10
 
 ### Fixed
