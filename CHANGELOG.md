@@ -2,6 +2,14 @@
 
 All notable changes to the project will be documented in this file.
 
+## [1.0.3] - 2023-07-18
+
+### Changed
+
+- Update `package.json` dependencies and script commands to the latest version.
+- Update `README.md` docker run command with `--restart=always` and output examples.
+- Update example `config2.json` override beta api url.
+
 ## [1.0.2] - 2023-04-12
 
 ### Fixed
