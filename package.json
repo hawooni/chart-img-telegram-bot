@@ -1,6 +1,6 @@
 {
   "name": "chart-img-telegram-bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "chart-img telegram bot",
   "author": "CHART-IMG <developer@chart-img.com>",
   "type": "module",
@@ -9,12 +9,12 @@
     "start": "npm run ngrok -- --port 8080 -t & npm run server-local -- --ip 127.0.0.1 --port 8080",
     "ngrok": "node --no-warnings src/setup/ngrok",
     "setup-telegram": "node --no-warnings src/setup/telegram",
-    "server-local": "npx wrangler dev --local",
-    "publish-server-cf": "npx wrangler publish",
+    "server-local": "npx wrangler dev",
+    "publish-server-cf": "npx wrangler deploy",
     "prettier": "prettier --write '**/*.{js,json,md}'"
   },
   "dependencies": {
-    "itty-router": "^3.0.12",
+    "itty-router": "^4.0.14",
     "lodash.get": "^4.4.2",
     "lodash.omit": "^4.5.0",
     "query-string": "^8.1.0"
@@ -22,11 +22,11 @@
   "devDependencies": {
     "args": "^5.0.3",
     "concat-stream": "^2.0.0",
-    "inquirer": "^9.1.5",
+    "inquirer": "^9.2.8",
     "ngrok": "^4.3.3",
-    "prettier": "^2.8.7",
+    "prettier": "^3.0.0",
     "toml": "^3.0.0",
-    "wrangler": "^2.15.0"
+    "wrangler": "^3.3.0"
   },
   "engines": {
     "node": ">=18"
