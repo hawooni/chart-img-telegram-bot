@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "override": {
-    "chartImgApiURL": "https://beta-api.chart-img.com"
-  },
   "/chart": {
     "intervals": ["5m", "15m", "1h", "4h", "1D", "1W"],
     "default": {
