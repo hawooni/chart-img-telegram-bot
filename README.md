@@ -157,13 +157,13 @@ This is the simplest way to run the server with only two files `wrangler.toml` a
 Replace \<PATH\> with the file path.
 
 ```
-$ docker run --name telegram-bot -v <PATH>/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v <PATH>/config.json:chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
+$ docker run --restart=always --name telegram-bot -v <PATH>/wrangler.toml:/chart-img-telegram-bot/wrangler.toml -v <PATH>/config.json:chart-img-telegram-bot/config.json -d hawooni/chart-img-telegram-bot:latest
 ```
 
 Linux:
 
 ```
-$ docker run --name telegram-bot \
+$ docker run --restart=always --name telegram-bot \
   -v $(pwd)/wrangler.toml:/chart-img-telegram-bot/wrangler.toml \
   -v $(pwd)/config.json:/chart-img-telegram-bot/config.json \
   -d hawooni/chart-img-telegram-bot:latest
@@ -186,12 +186,12 @@ $ npm run ngrok -- --port 8080 -t
 ```
 
 ```
-> chart-img-telegram-bot@1.0.0 ngrok
+> chart-img-telegram-bot@1.0.3 ngrok
 > node --no-warnings src/setup/ngrok --port 8080 -t
 
 ngrok: connected
 ------------------------------------------------------
-https://b18c-104-255-13-171.ngrok.io => 127.0.0.1:8080
+https://2360-104-255-13-171.ngrok-free.app => 127.0.0.1:8080
 ------------------------------------------------------
 ```
 
@@ -202,13 +202,13 @@ $ npm run server-local -- --ip 127.0.0.1 --port 8080
 ```
 
 ```
-> chart-img-telegram-bot@1.0.0 server-local
-> npx wrangler dev --local --ip 127.0.0.1 --port 8080
+> chart-img-telegram-bot@1.0.3 server-local
+> npx wrangler dev --ip 127.0.0.1 --port 8080
 
- ⛅️ wrangler 2.13.0
---------------------
-Want to try out the next version of local mode using the open-source Workers runtime?
-Switch out --local for --experimental-local and let us know what you think at https://discord.gg/cloudflaredev !
+ ⛅️ wrangler 3.3.0
+------------------
+wrangler dev now uses local mode by default, powered by 🔥 Miniflare and 👷 workerd.
+To run an edge preview session for your Worker, use wrangler dev --remote
 Your worker has access to the following bindings:
 - Vars:
   - NGROK_TOKEN: "HIDDEN..."
@@ -216,16 +216,10 @@ Your worker has access to the following bindings:
   - TELEGRAM_API_TOKEN: "HIDDEN..."
   - TELEGRAM_SECRET_TOKEN: "HIDDEN..."
 ⎔ Starting a local server...
+[mf:inf] Ready on http://127.0.0.1:8080/
 ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ [b] open a browser, [d] open Devtools, [l] turn off local mode, [c] clear console, [x] to exit                     │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-Debugger listening on ws://127.0.0.1:44669/1482827d-5961-43c1-b9d1-145c2a5f4e5f
-For help, see: https://nodejs.org/en/docs/inspector
-Debugger attached.
-[mf:inf] Worker reloaded! (80.69KiB)
-[mf:inf] Listening on 127.0.0.1:8080
-[mf:inf] - http://127.0.0.1:8080
-[mf:inf] Updated `Request.cf` object cache!
 ```
 
 #### Deploy Option #2 (Serverless)
@@ -241,20 +235,20 @@ $ npm run publish-server-cf
 ```
 
 ```
-> chart-img-telegram-bot@1.0.0 publish-server-cf
-> npx wrangler publish
+> chart-img-telegram-bot@1.0.3 publish-server-cf
+> npx wrangler deploy
 
- ⛅️ wrangler 2.13.0
---------------------
+ ⛅️ wrangler 3.3.0
+------------------
 Your worker has access to the following bindings:
 - Vars:
   - NGROK_TOKEN: "HIDDEN..."
   - CHART_IMG_API_KEY: "HIDDEN..."
   - TELEGRAM_API_TOKEN: "HIDDEN..."
   - TELEGRAM_SECRET_TOKEN: "HIDDEN..."
-Total Upload: 78.97 KiB / gzip: 15.42 KiB
-Uploaded chart-img-telegram-bot (1.09 sec)
-Published chart-img-telegram-bot (3.61 sec)
+Total Upload: 92.42 KiB / gzip: 15.80 KiB
+Uploaded chart-img-telegram-bot (0.81 sec)
+Published chart-img-telegram-bot (0.20 sec)
   https://chart-img-telegram-bot.<WORKER_NAME>.workers.dev
 Current Deployment ID: 8faf02f1-2219-474b-aa15-eaeaacf662dc
 ```
@@ -266,7 +260,7 @@ $ npm run setup-telegram
 ```
 
 ```
-> chart-img-telegram-bot@1.0.0 setup-telegram
+> chart-img-telegram-bot@1.0.3 setup-telegram
 > node --no-warnings src/setup/telegram
 
 ? Enter the server https base URL : https://chart-img-telegram-bot.<WORKER_NAME>.workers.dev
@@ -283,8 +277,8 @@ $ npx wrangler secret put CHART_IMG_API_KEY
 ```
 
 ```
- ⛅️ wrangler 2.13.0
---------------------
+ ⛅️ wrangler 3.3.0
+------------------
 ✔ Enter a secret value: … *************************************************
 🌀 Creating the secret for the Worker "chart-img-telegram-bot"
 ✨ Success! Uploaded secret CHART_IMG_API_KEY
