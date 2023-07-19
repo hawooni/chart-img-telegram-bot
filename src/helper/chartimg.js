@@ -72,8 +72,6 @@ function getQueryRESTv1(path, apiKey, query = {}, opt = {}) {
 }
 
 /**
- * note: API V2 BETA is not officially supported yet, you need to override BASE_API_URL to test it.
- *
  * @param {String} path eg. /tradingview/advanced-chart
  * @param {String} apiKey
  * @param {Object} payload
